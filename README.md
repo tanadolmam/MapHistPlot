@@ -3,7 +3,7 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
 
 ## Overview
   To draw a heatmap, it requires several programs. I divide them it to 4 parts:
-  1. [Clean data](#1. Clean data)
+  1. [Clean data](#Extra)
   2. Divide data into small pieces
   3. Process each piece
   4. Arrange the output
