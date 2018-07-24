@@ -44,9 +44,9 @@ Create table name "temp" in "test2" database to store data after cleaning.
 splitCSV(zoomRange,tile)
 ```
 
-Read table "temp" from database name "test2" then export data in given zoomRange and tile(x,y). Tile must be in [Google Map tile](http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/) format.
+Read table "temp" from database name "test2" then export data in given `zoomRange` and `tile`(x,y). Tile must be in [Google Map tile](http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/) format.
   
-The output will be stored in "/output/zoomZ/dataZ", where Z is zoomRange. For example, if zoomRange = 10, CSV file will be stored in "/output/zoom10/data10".
+The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For example, if `zoomRange` = 10, CSV file will be stored in "/output/zoom10/data10".
   
   
 ### 3. Plot data in to image files
@@ -86,8 +86,25 @@ createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
 ```
 cropImage(zoomRange,xmin,xmax,ymin,ymax)
 ```
-Create template images for cropping and trim image using bounding box range from `getRange()`
+* `zoomRange:int` - Range of zoom
+* `xmin:int` - most left value of x axis in map tile system
+* `xmax:int` - most right value of x axiss in map tile system
+* `ymin:int` - top value of y axis in map tile system
+* `ymax:int` - bottom value of y axis in map tile system
+
+Create template images for cropping and trim all images in `zoomRange` using bounding box range from `getRange()`
 
 ```
-getRange(imgName)
+getRange(zoomRange,x,y)
 ```
+* `zoomRange:int` - Range of zoom
+* `x:int` - x coordinate for reference tile (template image)
+* `y:int` - y coordinate for reference tile (template image)
+
+Return ranges of x axis and y axis in pixel .These ranges will be used for cropping other images.
+
+```
+stitchTile(zoomRange)
+```
+* `zoomRange:int` - Range of zoom
+Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRange+1` as one.
