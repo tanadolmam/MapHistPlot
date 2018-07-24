@@ -50,7 +50,7 @@ The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For 
   
   
 ### 3. Plot data in to image files
-  p3-plotHist2D.py plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer
+  p3-plotHist2D.py plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer.
   
 ```
 generateCmap()
@@ -81,7 +81,7 @@ createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
 * `lt:(float,float)` - (lat,lon) of left top point of a bound
 * `rb:(float,float)` - (lat,lon) of bottom right point of a bound
 * `cm:list` - list of 4-tuples in format of (R,G,B,A)
-  Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ"
+  Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ".
   
 ```
 cropImage(zoomRange,xmin,xmax,ymin,ymax)
@@ -92,7 +92,7 @@ cropImage(zoomRange,xmin,xmax,ymin,ymax)
 * `ymin:int` - top value of y axis in map tile system
 * `ymax:int` - bottom value of y axis in map tile system
 
-Create template images for cropping and trim all images in `zoomRange` using bounding box range from `getRange()`
+Create template images for cropping and trim all images in `zoomRange` using bounding box range from `getRange()`.
 
 ```
 getRange(zoomRange,x,y)
@@ -108,3 +108,69 @@ stitchTile(zoomRange)
 ```
 * `zoomRange:int` - Range of zoom
 Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRange+1` as one.
+
+### 4. Change format to TMS
+  p4-XYZtoTMS.py change file's name and organize them in Tile Map Service format.
+  
+```
+toTMS(zoomRange,xmin,xmax,ymin,ymax)
+```
+* `zoomRange:int` - Range of zoom
+* `xmin:int` - most left value of x axis in map tile system
+* `xmax:int` - most right value of x axiss in map tile system
+* `ymin:int` - top value of y axis in map tile system
+* `ymax:int` - bottom value of y axis in map tile system
+
+Organize files to make them work with Longdo Map API(TMS).
+
+### Extra
+  These files are used as library, they locate in lib folder.
+  ⋅⋅1. pathCheck.py
+```
+createFolder(filePath)
+```
+* `filePath:string` - Location for new folder
+  Check for `filePath`, if not exist, create it.
+ 
+ 
+ ⋅⋅2. mapTool.py
+```
+tile2long(x,z) 
+```
+* `x:int` - x coordinate of a tile
+* `z:int` - zoomRange
+Return a minimum longtitude of all tiles in `x` axis
+
+```
+tile2lat(y,z) 
+```
+* `y:int` - y coordinate of a tile
+* `z:int` - zoomRange
+Return a minimum latitude of all tiles in `y` axis
+
+```
+getTileBound(zoomRange) 
+```
+* `zoomRange:int` - Range of zoom
+Return bouding coordinate (x,y) of all tiles those cover Thailand in format of 5 parameters (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`)
+
+```
+bgColor(zoomRange,opacity) 
+```
+* `zoomRange:int` - Range of zoom
+* `opacity:int` - opacity of background (integer between 0-255), default=130
+Fill image background with black.
+
+```
+retouch(zoomRange,brightness,contrast,color,sharpness) 
+```
+* `zoomRange:int` - Range of zoom
+* `brightness:int` - configuration brightness of an image
+* `contrast:int` - configuration contrast of an image
+* `color:int` - configuration color of an image
+* `sharpness:int` - configuration sharpness of an image
+More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html)
+
+
+
+
