@@ -30,10 +30,18 @@ p2ImportToTable(filePath)
 * `filePath:string` - location of raw CSV file
 Import .csv file from `filePath` to CSVImport table
 
+
 ```
 p3CreateTemp()
 ```
 Create table name "temp" in "test2" database to store data after cleaning. The primary keys are `lat` and `lon`
+
+
+```
+getTotalRows()
+```
+Return total count of a table "CSVImport" in database "test2"
+
 
 ```
 p4UpsertTemp(chunkSize,totalRows)
@@ -42,10 +50,7 @@ p4UpsertTemp(chunkSize,totalRows)
 * `totalRows:int` - total rows of raw CSV file
 Insert rows from "CSVImport to "temp". The duplicate primary key will be recalculate to a new row.
 
-```
-getTotalRows()
-```
-Return total count of a table "CSVImport" in database "test2"
+
 
 
 ### 2. Export rows to csv file
