@@ -1,14 +1,19 @@
 # MapHistPlot
-Plot Heatmap from latitude and longtitude using Python.
+Plot Heatmap from latitude and longtitude using Python. Then make it work with Tile Map Service.
 
 ## Overview
-
+  To draw a heatmap, it requires several programs. I divide them it to 4 parts:
+  1. Clean data
+  2. Divide data into small pieces
+  3. Process each piece
+  4. Arrange the output
 ## How to use
 ### 0. Initialize
   Apache and MySQL
   
   
 ### 1. Clean data
+  I use 
   p1-ImportCSVToDB.py is used to import raw data in form of .csv file to database. The format of data is shown in table below.
   
 ID | latitude | longtitude | speed | date | direction | xx 
