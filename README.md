@@ -60,12 +60,12 @@ Return hot array colormap but first element(minimum value) will be transparent.
 ```
 plotting(zoomRange,xmin,xmax,ymin,ymax,colorMap)
 ```
-* `zoomRange`:int - Range of zoom
-* `xmin`:int - most left value of x axis in map tile system
-* `xmax`:int - most right value of x axiss in map tile system
-* `ymin`:int - top value of y axis in map tile system
-* `ymax`:int - bottom value of y axis in map tile system
-* `colorMap`:list - list of 4-tuples in format of (R,G,B,A)
+* `zoomRange:int` - Range of zoom
+* `xmin:int` - most left value of x axis in map tile system
+* `xmax:int` - most right value of x axiss in map tile system
+* `ymin:int` - top value of y axis in map tile system
+* `ymax:int` - bottom value of y axis in map tile system
+* `colorMap:list` - list of 4-tuples in format of (R,G,B,A)
 
 Read CSV file from "output/zoomZ/dataZ" and store in 2 lists, __latitude__ and __longtitude__. This function will append point to a list equal to __speed__ of that point
 For example, if (lat,lon,spd) = (10.3,15.2,120). The __latitude__ list will have 10.2 equal to 120 elements.
@@ -74,13 +74,13 @@ After this function read 500,000 rows of data or read to the end of csv soruce f
 ```
 createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
 ```
-* `latList`:float - array of latitude
-* `lonList`:float - array of lontitude
-* `binSize`:int - matplotlib.pyplot.hist2d bins
-* `imgName`:string - output file name(need .png at the end)
-* `lt`:(float,float) - (lat,lon) of left top point of a bound
-* `rb`:(float,float) - (lat,lon) of bottom right point of a bound
-* `cm`:list - list of 4-tuples in format of (R,G,B,A)
+* `latList:float` - array of latitude
+* `lonList:float` - array of lontitude
+* `binSize:int` - matplotlib.pyplot.hist2d bins
+* `imgName:string` - output file name(need .png at the end)
+* `lt:(float,float)` - (lat,lon) of left top point of a bound
+* `rb:(float,float)` - (lat,lon) of bottom right point of a bound
+* `cm:list` - list of 4-tuples in format of (R,G,B,A)
   Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ"
   
 ```
