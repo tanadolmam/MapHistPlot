@@ -4,8 +4,10 @@ Plot Heatmap from latitude and longtitude using Python.
 ## Overview
 
 ## How to use
-### 0. Iitialize
+### 0. Initialize
   Apache and MySQL
+  
+  
 ### 1. Clean data
   p1-ImportCSVToDB.py is used to import raw data in form of .csv file to database. The format of data is shown in table below.
   
@@ -25,17 +27,26 @@ Create table name "CSVImport" in "test2" database.
 ```
 p2ImportToTable(filePath)
 ```
-Import .csv file from "filePath" to CSVImport table
+* `filePath:string` - location of raw CSV file
+Import .csv file from `filePath` to CSVImport table
 
 ```
 p3CreateTemp()
 ```
-Create table name "temp" in "test2" database to store data after cleaning.
+Create table name "temp" in "test2" database to store data after cleaning. The primary keys are `lat` and `lon`
 
 ```
-p4UpsertTemp(chunk,totalRows)
+p4UpsertTemp(chunkSize,totalRows)
 ```
-Create table name "temp" in "test2" database to store data after cleaning.
+* `chunkSize:int` - limit of reading rows
+* `totalRows:int` - total rows of raw CSV file
+Insert rows from "CSVImport to "temp". The duplicate primary key will be recalculate to a new row.
+
+```
+getTotalRows()
+```
+Return total count of a table "CSVImport" in database "test2"
+
 
 ### 2. Export rows to csv file
   p2-splitCSV.py exports data from database into CSV file.
@@ -109,6 +120,7 @@ stitchTile(zoomRange)
 * `zoomRange:int` - Range of zoom
 Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRange+1` as one.
 
+
 ### 4. Change format to TMS
   p4-XYZtoTMS.py change file's name and organize them in Tile Map Service format.
   
@@ -123,9 +135,10 @@ toTMS(zoomRange,xmin,xmax,ymin,ymax)
 
 Organize files to make them work with Longdo Map API(TMS).
 
+
 ### Extra
   These files are used as library, they locate in lib folder.
-  ⋅⋅1. pathCheck.py
+  1. pathCheck.py
 ```
 createFolder(filePath)
 ```
@@ -133,7 +146,7 @@ createFolder(filePath)
   Check for `filePath`, if not exist, create it.
  
  
- ⋅⋅2. mapTool.py
+ 2. mapTool.py
 ```
 tile2long(x,z) 
 ```
@@ -169,6 +182,7 @@ retouch(zoomRange,brightness,contrast,color,sharpness)
 * `contrast:int` - configuration contrast of an image
 * `color:int` - configuration color of an image
 * `sharpness:int` - configuration sharpness of an image
+
 More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html)
 
 
