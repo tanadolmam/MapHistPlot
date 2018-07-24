@@ -46,9 +46,31 @@ splitCSV(zoomRange,tile)
 
 Read table "temp" from database name "test2" then export data in given zoomRange and tile(x,y). Tile must be in [Google Map tile](http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/) format.
   
-The output will be stored in /output/zoomZ/dataZ, where Z is zoomRange. For example, if zoomRange = 10, CSV file will be stored in /output/zoom10/data10.
+The output will be stored in "/output/zoomZ/dataZ", where Z is zoomRange. For example, if zoomRange = 10, CSV file will be stored in "/output/zoom10/data10".
   
   
 ### 3. Plot data in to image files
-  p3-plotHist2D.py
+  p3-plotHist2D.py plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer
   
+```
+generateCmap()
+```
+Return hot array colormap but first element(minimum value) will be transparent. 
+
+```
+plotting(zoomRange,xmin,xmax,ymin,ymax,colorMap)
+```
+* zoomRange:int - Range of zoom
+* xmin:int - most left value of x axis in map tile system
+* xmax:int - most right value of x axiss in map tile system
+* ymin:int - top value of y axis in map tile system
+* ymax:int - bottom value of y axis in map tile system
+* colorMap:list - list of 4-tuples in format of (R,G,B,A)
+
+Read CSV file from "output/zoomZ/dataZ" and store in 2 lists, __latitude__ and __longtitude__. This function will append point to a list equal to __speed__ of that point
+For example, if (lat,lon,spd) = (10.3,15.2,120). The __latitude__ list will have 10.2 equal to 120 elements.
+After this function read 500,000 rows of data or read to the end of csv soruce file, it will call `createHist2d(...)`
+
+```
+createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
+```
