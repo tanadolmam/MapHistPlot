@@ -28,6 +28,7 @@ Create table name "CSVImport" in "test2" database.
 p2ImportToTable(filePath)
 ```
 * `filePath:string` - location of raw CSV file
+
 Import .csv file from `filePath` to CSVImport table
 
 
@@ -48,6 +49,7 @@ p4UpsertTemp(chunkSize,totalRows)
 ```
 * `chunkSize:int` - limit of reading rows
 * `totalRows:int` - total rows of raw CSV file
+
 Insert rows from "CSVImport to "temp". The duplicate primary key will be recalculate to a new row.
 
 
@@ -97,7 +99,8 @@ createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
 * `lt:(float,float)` - (lat,lon) of left top point of a bound
 * `rb:(float,float)` - (lat,lon) of bottom right point of a bound
 * `cm:list` - list of 4-tuples in format of (R,G,B,A)
-  Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ".
+
+Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ".
   
 ```
 cropImage(zoomRange,xmin,xmax,ymin,ymax)
@@ -123,6 +126,7 @@ Return ranges of x axis and y axis in pixel .These ranges will be used for cropp
 stitchTile(zoomRange)
 ```
 * `zoomRange:int` - Range of zoom
+
 Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRange+1` as one.
 
 
@@ -148,7 +152,8 @@ Organize files to make them work with Longdo Map API(TMS).
 createFolder(filePath)
 ```
 * `filePath:string` - Location for new folder
-  Check for `filePath`, if not exist, create it.
+
+Check for `filePath`, if not exist, create it.
  
  
  2. mapTool.py
@@ -157,6 +162,7 @@ tile2long(x,z)
 ```
 * `x:int` - x coordinate of a tile
 * `z:int` - zoomRange
+
 Return a minimum longtitude of all tiles in `x` axis
 
 ```
@@ -164,12 +170,14 @@ tile2lat(y,z)
 ```
 * `y:int` - y coordinate of a tile
 * `z:int` - zoomRange
+
 Return a minimum latitude of all tiles in `y` axis
 
 ```
 getTileBound(zoomRange) 
 ```
 * `zoomRange:int` - Range of zoom
+
 Return bouding coordinate (x,y) of all tiles those cover Thailand in format of 5 parameters (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`)
 
 ```
@@ -177,6 +185,7 @@ bgColor(zoomRange,opacity)
 ```
 * `zoomRange:int` - Range of zoom
 * `opacity:int` - opacity of background (integer between 0-255), default=130
+
 Fill image background with black.
 
 ```
