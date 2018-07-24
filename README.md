@@ -9,7 +9,7 @@ Plot Heatmap from latitude and longtitude using Python.
   
 ID | latitude | longtitude | speed | date | direction | xx 
 --- | --- | --- | --- | --- | --- | ---
-int | `renders` | **nicely**
+int | float | float | float | date | int | int
 
 
 An example of source file is in the Example folder.
