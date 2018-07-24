@@ -12,8 +12,25 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
   
   [4. Arrange the output](#4-change-format-to-tms)
   
-  
 ## How to use
+Installing the following modules:
+[PyMySQL](https://github.com/PyMySQL/PyMySQL),
+[NumPy](https://github.com/numpy/numpy),
+[Matplotlib](https://github.com/matplotlib/matplotlib) and 
+[Pillow](https://github.com/python-pillow/Pillow)
+
+
+
+### Window
+1. Open Command Prompt
+2. Change directory to file location by typing `cd C:\Users\user\Documents\GitHub`
+
+3. Run each file in order
+`python p1-importToDB.py `
+
+
+
+## Documentation
 ### 0. Initialize
   Apache and MySQL
   
