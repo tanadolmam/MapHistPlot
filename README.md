@@ -13,7 +13,7 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
   [4. Arrange the output](#4-change-format-to-tms)
   
 ## How to use
-Installing the following modules:
+Install the following modules:
 [PyMySQL](https://github.com/PyMySQL/PyMySQL),
 [NumPy](https://github.com/numpy/numpy),
 [Matplotlib](https://github.com/matplotlib/matplotlib) and 
