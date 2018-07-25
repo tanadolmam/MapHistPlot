@@ -13,7 +13,7 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
   [4. Arrange the output](#4-change-format-to-tms)
   
 ## How to use
-Install the following modules:
+Firstly, install the following modules:
 [PyMySQL](https://github.com/PyMySQL/PyMySQL),
 [NumPy](https://github.com/numpy/numpy),
 [Matplotlib](https://github.com/matplotlib/matplotlib) and 
@@ -31,13 +31,10 @@ Install the following modules:
 
 
 ## Documentation
-### 0. Initialize
-  Apache and MySQL
-  
-  
-### 1. Clean data
-  I use 
-  p1-ImportCSVToDB.py is used to import raw data in form of .csv file to database. The format of data is shown in table below.
+
+### p1-ImportCSVToDB.py
+ 
+  Import raw data in form of .csv file to database. The format of data is shown in table below.
   
 ID | latitude | longtitude | speed | date | direction | xx 
 --- | --- | --- | --- | --- | --- | ---
@@ -83,8 +80,8 @@ Insert rows from "CSVImport to "temp". The duplicate primary key will be recalcu
 
 
 
-### 2. Export rows to csv file
-  p2-splitCSV.py exports data from database into CSV file.
+### p2-splitCSV.py
+   Exports data from database into CSV file.
   
 ```
 splitCSV(zoomRange,tile)
@@ -95,8 +92,8 @@ Read table "temp" from database name "test2" then export data in given `zoomRang
 The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For example, if `zoomRange` = 10, CSV file will be stored in "/output/zoom10/data10".
   
   
-### 3. Plot data in to image files
-  p3-plotHist2D.py plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer.
+### p3-plotHist2D.py
+   Plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer.
   
 ```
 generateCmap()
@@ -158,8 +155,8 @@ stitchTile(zoomRange)
 Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRange+1` as one.
 
 
-### 4. Change format to TMS
-  p4-XYZtoTMS.py change file's name and organize them in Tile Map Service format.
+### p4-XYZtoTMS.py
+   Change file's name and organize them in Tile Map Service format.
   
 ```
 toTMS(zoomRange,xmin,xmax,ymin,ymax)
