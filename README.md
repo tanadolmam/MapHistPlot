@@ -12,15 +12,15 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
   
     This method handles duplicate latitude,longtitude points
   
-  2. Divide data into small pieces
+ 2. Divide data into small pieces
   
     Sometimes, data is too large to load into memory once. We should split them into chunks and process one by one. Remind that we need to normallize them to make color looks smooth.
   
-  3. Process each piece
+ 3. Process each piece
   
     After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one, we recursively do this to a lower zoom level.
   
-  4. Arrange the output
+ 4. Arrange the output
   
     This method is required if we use TMS. It will modify file's name and location to the correct form.
   
