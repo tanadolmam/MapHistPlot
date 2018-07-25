@@ -1,0 +1,103 @@
+<html>
+
+<head><title>Map 3</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<style type="text/css">
+		body { margin: 0; padding: 0;}
+
+	</style>
+	<script type="text/javascript" src="http://api.longdo.com/map/?key=650a0da568a99a679da72e33394332ee"></script>
+	<script type="text/javascript">
+
+		
+				
+				
+		var map;
+		
+		function tile2long(x,z) { return (x/Math.pow(2,z)*360-180); }
+
+		function tile2lat(y,z) {
+    		var n=Math.PI-2*Math.PI*y/Math.pow(2,z);
+    		return (180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))));
+		}
+		function getTileBound(zoomRange){
+		    minZoomRange=20
+		    xmin = Math.floor(807815/(2**(minZoomRange-zoomRange)))
+		    xmax = Math.floor(831941/(2**(minZoomRange-zoomRange))) 
+		    ymin = Math.floor(463368/(2**(minZoomRange-zoomRange)))
+		    ymax = Math.floor(507913/(2**(minZoomRange-zoomRange)))
+		    return [xmin,xmax,ymin,ymax]
+		}
+		function init() {
+
+			map = new longdo.Map({
+				placeholder: document.getElementById('map'),
+				lastView: false
+			});
+			var currloc = map.location();
+			var box = getTileBound(map.zoom());
+
+			map.zoom(6,true);
+			map.Route.enableContextMenu();
+			map.Route.search();
+			map.Route.auto(true);
+			map.zoomRange({ min:6, max:12 });
+			var result = map.zoom();
+			map.Event.bind('drop', function() {
+				var loc = map.location();
+				console.log('loc = ',JSON.stringify(loc))
+				minLat=box[0];
+				minLon=box[1];
+				maxLat=box[2];
+				maxLon=box[3];
+				console.log(minLon,maxLon,minLat,maxLat);
+				if(loc['lon']>106.86){
+					console.log(loc['lon']);
+					map.location({lon:currloc['lon'], lat:currloc['lat']}, true);
+				}
+				else if(loc['lon']<95){
+					console.log(loc['lon']);
+					map.location({lon:currloc['lon'], lat:currloc['lat']}, true);
+				}
+				else if(loc['lat']>20){
+					console.log(loc['lat']);
+					map.location({lon:currloc['lon'], lat:currloc['lat']}, true);
+				}
+				else if(loc['lat']<0){
+					console.log(loc['lat']);
+					map.location({lon:currloc['lon'], lat:currloc['lat']}, true);
+				}
+				else{
+				currloc = map.location();}
+				console.log('currloc = ',JSON.stringify(currloc));
+
+			});
+			map.Event.bind('zoom', function() {
+				box = getTileBound(map.zoom());
+				// console.log(box);
+			});
+
+
+		var histLayer = new longdo.Layer('', {
+  			type: longdo.LayerType.TMS,
+  			url: 'TMSimage',
+  			bound: {
+			    minLon: 56.25, minLat: -36.597,
+			    maxLon: 146.25, maxLat: 52.4827}
+			});	
+		map.Layers.add(histLayer);
+								
+					
+	
+	}
+	</script>
+</head>
+
+
+
+
+<body onload="init()">
+	<div id = "map"></div>
+</body>
+</html>
+
