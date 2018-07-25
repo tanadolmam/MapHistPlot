@@ -23,10 +23,18 @@ Firstly, install the following modules:
 
 ### Window
 1. Open Command Prompt
-2. Change directory to file location by typing `cd C:\Users\user\Documents\GitHub`
+2. Change directory to file location  `cd C:\Users\user\Documents\GitHub`
 
 3. Run each file in order
+
 `python p1-importToDB.py `
+
+`python p2-splitCSV.py `
+
+`python p3-plotHist2d.py `
+
+`python p4-SXYtoTMS.py `
+
 
 
 
