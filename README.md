@@ -10,15 +10,15 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
 
  1. Clean data
   
-    This method handles duplicate latitude,longtitude points
+    This method handles duplicate latitude,longtitude points using MySQL.
   
  2. Divide data into small pieces
   
-    Sometimes, data is too large to load into memory once. We should split them into chunks and process one by one. Remind that we need to normallize them to make color looks smooth.
+    Sometimes, data is too large to load into memory at once. We should split them into chunks and process one by one. Remind that we need to normallize them to make color looks smooth.
   
  3. Process each piece
   
-    After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one, we recursively do this to a lower zoom level.
+    After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one and recursively do this to a lower zoom level.
   
  4. Arrange the output
   
@@ -37,10 +37,11 @@ Firstly, install the following modules:
 
 
 ### Windows
-1. Open Command Prompt
-2. Change directory to file location  `cd C:\Users\user\Documents\GitHub`
+1. Create database "test2"
+2. Open Command Prompt
+3. Change directory to your python file location  `cd C:\Users\user\Documents\GitHub`
 
-3. Run each file in order:
+4. Run each file in order:
 Example of plotting heatmap from zoomRange 6 to 12
 
 `python p1-importToDB.py "GPSData/mappoint.csv"` --> Clean data and import them to database.
@@ -58,7 +59,7 @@ Example of plotting heatmap from zoomRange 6 to 12
 
 ### p1-ImportToDB.py
  
-  Import raw data in form of .csv file to database. The format of data is shown in table below.
+  Import raw data in format of .csv file to database. The form of data is shown in table below.
   
 ID | latitude | longtitude | speed | date | direction | xx 
 --- | --- | --- | --- | --- | --- | ---
@@ -78,7 +79,7 @@ p2ImportToTable(filePath)
 ```
 * `filePath:string` - location of raw CSV file
 
-Import .csv file from `filePath` to CSVImport table.
+Import .csv file from `filePath` to CSVImport table. The [upload size limit](https://stackoverflow.com/questions/3958615/import-file-size-limit-in-phpmyadmin) may cause an error.
 
 
 ```
@@ -90,7 +91,7 @@ Create table name "temp" in "test2" database to store data after cleaning. The p
 ```
 getTotalRows()
 ```
-Return total count of a table "CSVImport" in database "test2".
+Return total count of row of table "CSVImport" in database "test2".
 
 
 ```
@@ -99,13 +100,13 @@ p4UpsertTemp(totalRows)
 * `chunkSize:int` - limit of reading rows
 * `totalRows:int` - total rows of raw CSV file
 
-Insert rows from "CSVImport to "temp". The duplicate primary key will be recalculate to a new row.
+Insert rows from "CSVImport" to "temp". The duplicate primary key will be recalculate to a new row.
 
 
 
 
 ### p2-splitCSV.py
-   Exports data from database into CSV file.
+   Export data from database into CSV file.
   
 ```
 splitCSV(zoomRange,tile)
@@ -122,7 +123,8 @@ The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For 
 ```
 generateCmap()
 ```
-Return hot array colormap but first element(minimum value) will be transparent. 
+Return hot array colormap but first 
+nt(minimum value) will be transparent. 
 
 ```
 plotting(zoomRange,xmin,xmax,ymin,ymax,colorMap)
@@ -135,7 +137,7 @@ plotting(zoomRange,xmin,xmax,ymin,ymax,colorMap)
 * `colorMap:list` - list of 4-tuples in format of (R,G,B,A)
 
 Read CSV file from "output/zoomZ/dataZ" and store in 2 lists, __latitude__ and __longtitude__. This function will append point to a list equal to __speed__ of that point.
-For example, if (lat,lon,spd) = (10.3,15.2,120). The __latitude__ list will have 10.2 equal to 120 elements.
+For example, if (lat,lon,spd) = (10.3,15.2,120). The __latitude__ list will append 10.2 equal to 120 times.
 After this function read 500,000 rows of data or read to the end of csv soruce file, it will call `createHist2d(...)`.
 
 ```
@@ -227,7 +229,7 @@ getTileBound(zoomRange)
 ```
 * `zoomRange:int` - Range of zoom
 
-Return bouding coordinate (x,y) of all tiles those cover Thailand in format of 5 parameters (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`).
+Return bouding coordinate (x,y) of all tiles those cover Thailand, the output has 5 parameters. (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`).
 
 ```
 bgColor(zoomRange,opacity) 
