@@ -233,8 +233,11 @@ retouch(zoomRange,brightness,contrast,color,sharpness)
 More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html)
 
 ## References
+
 <https://www.strava.com/heatmap>
+
 <http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/>
+
 <https://medium.com/strava-engineering/the-global-heatmap-now-6x-hotter-23fc01d301de>
 
 
