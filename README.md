@@ -33,7 +33,7 @@ Example of plotting heatmap from zoomRange 6 to 12
 
 `python p2-splitCSV.py 12`  --> Create csv for each tile in zoomRange=12.
 
-`python p3-plotHist2d.py 6 12` -->Draw heatmap of zoomRange=12 then stitch them to make hetamap for 6-11 (4 tiles become 1).
+`python p3-plotHist2d.py 6 12` -->Draw heatmap of zoomRange=12 then recursively stitch them to make hetamap for 6-11 (4 tiles become 1).
 
 `python p4-SXYtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
 
