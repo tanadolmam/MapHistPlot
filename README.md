@@ -238,10 +238,10 @@ Fill image background with black.
 retouch(zoomRange,brightness,contrast,color,sharpness) 
 ```
 * `zoomRange:int` - Range of zoom
-* `brightness:int` - configuration brightness of an image
-* `contrast:int` - configuration contrast of an image
-* `color:int` - configuration color of an image
-* `sharpness:int` - configuration sharpness of an image
+* `brightness:int` - adjust brightness of an image
+* `contrast:int` - adjust contrast of an image
+* `color:int` - adjust color of an image
+* `sharpness:int` - adjust sharpness of an image
 
 More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html).
 
