@@ -4,13 +4,13 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
 ## Overview
   To draw a heatmap, it requires several programs. I divide them it to 4 parts:
   
-  [1. Clean data](#1-clean-data)
+  1. Clean data
   
-  [2. Divide data into small pieces](#2-export-rows-to-csv-file)
+  2. Divide data into small pieces
   
-  [3. Process each piece](#3-plot-data-in-to-image-files)
+  3. Process each piece
   
-  [4. Arrange the output](#4-change-format-to-tms)
+  4. Arrange the output
   
 ## How to use
 Firstly, install the following modules:
@@ -29,13 +29,13 @@ Firstly, install the following modules:
 
 Example of plotting heatmap from zoomRange 6 to 12
 
-`python p1-importToDB.py `
+`python p1-importToDB.py "GPSData/mappoint.csv"` --> Clean data and import them to database.
 
-`python p2-splitCSV.py 12`
+`python p2-splitCSV.py 12`  --> Create csv for each tile in zoomRange=12.
 
-`python p3-plotHist2d.py 6 12`
+`python p3-plotHist2d.py 6 12` -->Draw heatmap of zoomRange=12 then stitch them to make hetamap for 6-11 (4 tiles become 1).
 
-`python p4-SXYtoTMS.py 6 12`
+`python p4-SXYtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
 
 
 
@@ -64,19 +64,19 @@ p2ImportToTable(filePath)
 ```
 * `filePath:string` - location of raw CSV file
 
-Import .csv file from `filePath` to CSVImport table
+Import .csv file from `filePath` to CSVImport table.
 
 
 ```
 p3CreateTemp()
 ```
-Create table name "temp" in "test2" database to store data after cleaning. The primary keys are `lat` and `lon`
+Create table name "temp" in "test2" database to store data after cleaning. The primary keys are `lat` and `lon`.
 
 
 ```
 getTotalRows()
 ```
-Return total count of a table "CSVImport" in database "test2"
+Return total count of a table "CSVImport" in database "test2".
 
 
 ```
@@ -120,9 +120,9 @@ plotting(zoomRange,xmin,xmax,ymin,ymax,colorMap)
 * `ymax:int` - bottom value of y axis in map tile system
 * `colorMap:list` - list of 4-tuples in format of (R,G,B,A)
 
-Read CSV file from "output/zoomZ/dataZ" and store in 2 lists, __latitude__ and __longtitude__. This function will append point to a list equal to __speed__ of that point
+Read CSV file from "output/zoomZ/dataZ" and store in 2 lists, __latitude__ and __longtitude__. This function will append point to a list equal to __speed__ of that point.
 For example, if (lat,lon,spd) = (10.3,15.2,120). The __latitude__ list will have 10.2 equal to 120 elements.
-After this function read 500,000 rows of data or read to the end of csv soruce file, it will call `createHist2d(...)`
+After this function read 500,000 rows of data or read to the end of csv soruce file, it will call `createHist2d(...)`.
 
 ```
 createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
@@ -198,7 +198,7 @@ tile2long(x,z)
 * `x:int` - x coordinate of a tile
 * `z:int` - zoomRange
 
-Return a minimum longtitude of all tiles in `x` axis
+Return a minimum longtitude of all tiles in `x` axis.
 
 ```
 tile2lat(y,z) 
@@ -206,14 +206,14 @@ tile2lat(y,z)
 * `y:int` - y coordinate of a tile
 * `z:int` - zoomRange
 
-Return a minimum latitude of all tiles in `y` axis
+Return a minimum latitude of all tiles in `y` axis.
 
 ```
 getTileBound(zoomRange) 
 ```
 * `zoomRange:int` - Range of zoom
 
-Return bouding coordinate (x,y) of all tiles those cover Thailand in format of 5 parameters (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`)
+Return bouding coordinate (x,y) of all tiles those cover Thailand in format of 5 parameters (`zoomRange`,`xmin`,`xmax`,`ymin`,`ymax`).
 
 ```
 bgColor(zoomRange,opacity) 
@@ -232,7 +232,7 @@ retouch(zoomRange,brightness,contrast,color,sharpness)
 * `color:int` - configuration color of an image
 * `sharpness:int` - configuration sharpness of an image
 
-More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html)
+More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/reference/ImageEnhance.html).
 
 ## References
 
