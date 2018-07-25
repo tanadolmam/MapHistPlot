@@ -66,7 +66,7 @@ ID | latitude | longtitude | speed | date | direction | xx
 int | float | float | float | date | int | int
 
 
-An example of source file is in the Example folder.
+An example of source file is in the "GPSData" folder.
 
 We run function in the following order:
 ```
@@ -114,7 +114,7 @@ splitCSV(zoomRange,tile)
 
 Read table "temp" from database name "test2" then export data in given `zoomRange` and `tile`(x,y). Tile must be in [Google Map tile](http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/) format.
   
-The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For example, if `zoomRange` = 10, CSV file will be stored in "/output/zoom10/data10".
+The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For example, if `zoomRange = 10`, CSV file will be stored in "/output/zoom10/data10".
   
   
 ### p3-plotHist2D.py
@@ -144,14 +144,14 @@ After this function read 500,000 rows of data or read to the end of csv soruce f
 createHist2d(lonList,latList, binSize,imgName,lt,rb,cm)
 ```
 * `latList:float` - array of latitude
-* `lonList:float` - array of lontitude
+* `lonList:float` - array of longtitude
 * `binSize:int` - matplotlib.pyplot.hist2d bins
 * `imgName:string` - output file name(need .png at the end)
 * `lt:(float,float)` - (lat,lon) of left top point of a bound
 * `rb:(float,float)` - (lat,lon) of bottom right point of a bound
 * `cm:list` - list of 4-tuples in format of (R,G,B,A)
 
-Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to "output/zoomZ/tempZ".
+Draw 2D histogram on canvas size equal to `lt` and `rb` bound and save to `imgName`.
   
 ```
 cropImage(zoomRange,xmin,xmax,ymin,ymax)
