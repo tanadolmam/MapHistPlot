@@ -25,7 +25,8 @@ Firstly, install the following modules:
 1. Open Command Prompt
 2. Change directory to file location  `cd C:\Users\user\Documents\GitHub`
 
-3. Run each file in order
+3. Run each file in order:
+
 Example of plotting heatmap from zoomRange 6 to 12
 
 `python p1-importToDB.py `
