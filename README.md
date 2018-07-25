@@ -4,45 +4,56 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
 ## Overview
   To draw a heatmap, it requires several programs. I divide them it to 4 parts:
   
-  1. Clean data
+![alt text](https://github.com/tanadolmam/MapHistPlot/blob/master/images/workflow.png?raw=true)
+
+  __1. Clean data__
   
-  2. Divide data into small pieces
+    This method handles duplicate latitude,longtitude points.
   
-  3. Process each piece
+  __2. Divide data into small pieces__
   
-  4. Arrange the output
+    Sometimes, data is too large to load into memory once. We should split them into chunks and process one by one. Remind that we need to normallize them to make color looks smooth.
   
+  __3. Process each piece__
+  
+    After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one, we recursively do this to a lower zoom level.
+  
+  __4. Arrange the output__
+    This method is required if we use TMS. It will modify file's name and location to the correct form.
+  
+  
+
+
 ## How to use
 Firstly, install the following modules:
 [PyMySQL](https://github.com/PyMySQL/PyMySQL),
 [NumPy](https://github.com/numpy/numpy),
 [Matplotlib](https://github.com/matplotlib/matplotlib) and 
-[Pillow](https://github.com/python-pillow/Pillow)
+[Pillow](https://github.com/python-pillow/Pillow).
 
 
 
-### Window
+### Windows
 1. Open Command Prompt
 2. Change directory to file location  `cd C:\Users\user\Documents\GitHub`
 
 3. Run each file in order:
-
 Example of plotting heatmap from zoomRange 6 to 12
 
 `python p1-importToDB.py "GPSData/mappoint.csv"` --> Clean data and import them to database.
 
-`python p2-splitCSV.py 12`  --> Create csv for each tile in zoomRange=12.
+`python p2-splitCSV.py 12`  --> Create csv for each tile where zoomRange=12.
 
-`python p3-plotHist2d.py 6 12` -->Draw heatmap of zoomRange=12 then recursively stitch them to make hetamap for 6-11 (4 tiles become 1).
+`python p3-plotHist2d.py 6 12` --> Draw heatmap of zoomRange=12 then recursively stitch them to make heatmap for zoom level 6-11 descending.
 
-`python p4-SXYtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
+`python p4-XYZtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
 
 
 
 
 ## Documentation
 
-### p1-ImportCSVToDB.py
+### p1-ImportToDB.py
  
   Import raw data in form of .csv file to database. The format of data is shown in table below.
   
@@ -80,7 +91,7 @@ Return total count of a table "CSVImport" in database "test2".
 
 
 ```
-p4UpsertTemp(chunkSize,totalRows)
+p4UpsertTemp(totalRows)
 ```
 * `chunkSize:int` - limit of reading rows
 * `totalRows:int` - total rows of raw CSV file
