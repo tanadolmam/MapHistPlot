@@ -4,21 +4,24 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
 ## Overview
   To draw a heatmap, it requires several programs. I divide them it to 4 parts:
   
-![alt text](https://github.com/tanadolmam/MapHistPlot/blob/master/images/workflow.png?raw=true)
+![alt text](https://raw.githubusercontent.com/tanadolmam/MapHistPlot/master/images/workflow.png)
 
-  __1. Clean data__
+
+
+ 1. Clean data
   
-    This method handles duplicate latitude,longtitude points.
+    This method handles duplicate latitude,longtitude points
   
-  __2. Divide data into small pieces__
+  2. Divide data into small pieces
   
     Sometimes, data is too large to load into memory once. We should split them into chunks and process one by one. Remind that we need to normallize them to make color looks smooth.
   
-  __3. Process each piece__
+  3. Process each piece
   
     After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one, we recursively do this to a lower zoom level.
   
-  __4. Arrange the output__
+  4. Arrange the output
+  
     This method is required if we use TMS. It will modify file's name and location to the correct form.
   
   
