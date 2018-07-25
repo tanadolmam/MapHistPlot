@@ -29,11 +29,11 @@ Firstly, install the following modules:
 
 `python p1-importToDB.py `
 
-`python p2-splitCSV.py `
+`python p2-splitCSV.py 12`
 
-`python p3-plotHist2d.py `
+`python p3-plotHist2d.py 6 12`
 
-`python p4-SXYtoTMS.py `
+`python p4-SXYtoTMS.py 6 12`
 
 
 
