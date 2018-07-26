@@ -199,8 +199,8 @@ Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRa
 
 ### p4-XYZtoTMS.py
 
-* `--minZoomRange:int` - minimunm range of zoom
-* `--maxZoomRange:int` - maximunm range of zoom
+* `--min:int` - minimunm range of zoom
+* `--max:int` - maximunm range of zoom
 * `--mode:string` - "speed" or "density"
 * `--opacity:int` - background opacity of border image(between 0-255)
 
