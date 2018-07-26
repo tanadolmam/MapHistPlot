@@ -52,7 +52,8 @@ Example of plotting heatmap from zoomRange 6 to 12
 `python p3-plotHist2d.py 6 12` --> Draw heatmap of zoomRange=12 then recursively stitch them to make heatmap for zoom level 6-11 descending.
 
 `python p4-XYZtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
-5. Open __mymap.html__ to see the result. Learn more about [Longdo Map API](https://map.longdo.com/longdo-map-api)
+
+5. Open __mymap.html__ to see the result. Learn more about [Longdo Map API](https://map.longdo.com/longdo-map-api).
 
 
 
