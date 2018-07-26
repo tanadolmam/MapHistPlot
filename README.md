@@ -18,7 +18,9 @@ Plot Heatmap from latitude and longtitude using Python. Then make it work with T
   
  3. Process each piece
   
-    After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one and recursively do this to a lower zoom level.
+    After we split data, 1 chunk means 1 tile. We plot each tile and crop them to make them fit to map. Then we will have a full heatmap of 1 zoom level. To get the other levels we don't need to clean,split and plot them again. We just stitch four tiles as one and recursively do this to a lower zoom level. 
+    
+_Note that you cannot use this method to a higher zoom level._
   
  4. Arrange the output
   
