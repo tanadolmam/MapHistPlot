@@ -37,11 +37,12 @@ Firstly, install the following modules:
 
 
 ### Windows
-1. Create database "test2" by Apache, MySQL.
+1. Create database by Apache, MySQL and name it "test2".
 2. Open Command Prompt
 3. Change directory to your python directory  `cd C:\Users\user\Documents\GitHub`
 
 4. Run each file in order:
+
 Example of plotting heatmap from zoomRange 6 to 12
 
 `python p1-importToDB.py "/Users/user/Documents/GitHub/MapHistPlot//GPSData/mappoint.csv"` --> Clean data and import them to database.
@@ -257,6 +258,8 @@ More information about [ImageEnhance](https://pillow.readthedocs.io/en/3.0.x/ref
 <http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/>
 
 <https://medium.com/strava-engineering/the-global-heatmap-now-6x-hotter-23fc01d301de>
+
+<http://api.longdo.com/map/doc/>
 
 
 
