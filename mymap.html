@@ -28,6 +28,43 @@
 		    ymax = Math.floor(507913/(2**(minZoomRange-zoomRange)))
 		    return [xmin,xmax,ymin,ymax]
 		}
+
+		// Draw speed layer
+		function spdLayer(){
+			map.Layers.clear()
+		var histLayer = new longdo.Layer('', {
+  			type: longdo.LayerType.TMS,
+  			url: 'TMSimagespeed',
+  			bound: {
+			    minLon: 56.25, minLat: -36.597,
+			    maxLon: 146.25, maxLat: 52.4827}
+			});	
+		map.Layers.add(histLayer);
+					}
+
+		//  Draw density layer
+		function denLayer(){
+			map.Layers.clear()
+		var histLayer = new longdo.Layer('', {
+  			type: longdo.LayerType.TMS,
+  			url: 'TMSimagedensity',
+  			bound: {
+			    minLon: 56.25, minLat: -36.597,
+			    maxLon: 146.25, maxLat: 52.4827}
+			});	
+		map.Layers.add(histLayer);
+					}
+
+		// Layer swap button
+		function menuChange(toItem, fromItem) {
+        if(toItem.value=='spd'){
+        	spdLayer();
+        }else if(toItem.value=='den'){
+        	denLayer();
+        }
+      }
+
+
 		function init() {
 
 			map = new longdo.Map({
@@ -41,7 +78,7 @@
 			map.Route.enableContextMenu();
 			map.Route.search();
 			map.Route.auto(true);
-			map.zoomRange({ min:6, max:12 });
+			map.zoomRange({ min:6, max:10 });
 			var result = map.zoom();
 			map.Event.bind('drop', function() {
 				var loc = map.location();
@@ -77,17 +114,16 @@
 				// console.log(box);
 			});
 
+			var control1 = new longdo.MenuBar({ button: [
+				{ label: 'Speed', value: 'spd' },
+			    { label: 'Density', value: 'den' }
+			], change: menuChange }
+				);
+			map.Ui.add(control1);
+			control1.selectIndex(0);
+			spdLayer();	
 
-		var histLayer = new longdo.Layer('', {
-  			type: longdo.LayerType.TMS,
-  			url: 'TMSimage',
-  			bound: {
-			    minLon: 56.25, minLat: -36.597,
-			    maxLon: 146.25, maxLat: 52.4827}
-			});	
-		map.Layers.add(histLayer);
-								
-					
+
 	
 	}
 	</script>
@@ -98,6 +134,7 @@
 
 <body onload="init()">
 	<div id = "map"></div>
+	
 </body>
 </html>
 
