@@ -39,19 +39,19 @@ Firstly, install the following modules:
 ### Windows
 1. Create database "test2" by Apache, MySQL.
 2. Open Command Prompt
-3. Change directory to your python file location  `cd C:\Users\user\Documents\GitHub`
+3. Change directory to your python directory  `cd C:\Users\user\Documents\GitHub`
 
 4. Run each file in order:
 Example of plotting heatmap from zoomRange 6 to 12
 
-`python p1-importToDB.py "GPSData/mappoint.csv"` --> Clean data and import them to database.
+`python p1-importToDB.py "/Users/user/Documents/GitHub/MapHistPlot//GPSData/mappoint.csv"` --> Clean data and import them to database.
 
 `python p2-splitCSV.py 12`  --> Create csv for each tile where zoomRange=12.
 
 `python p3-plotHist2d.py 6 12` --> Draw heatmap of zoomRange=12 then recursively stitch them to make heatmap for zoom level 6-11 descending.
 
 `python p4-XYZtoTMS.py 6 12`  --> Arrange images in zoomRange 6 to 12 in the correct format.
-
+5. Open __mymap.html__ to see the result. Learn more about [Longdo Map API](https://map.longdo.com/longdo-map-api)
 
 
 
