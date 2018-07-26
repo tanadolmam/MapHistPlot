@@ -70,7 +70,7 @@ int | float | float | float | date | int | int
 
 An example of source file is in the "GPSData" folder.
 
-We run function in the following order:
+
 ```
 p1CreateCSVImport()
 ```
@@ -81,7 +81,7 @@ p2ImportToTable(filePath)
 ```
 * `filePath:string` - location of raw CSV file
 
-Import .csv file from `filePath` to CSVImport table. The [upload size limit](https://stackoverflow.com/questions/3958615/import-file-size-limit-in-phpmyadmin) may cause an error.
+Import .csv file from `filePath` to CSVImport table. The [uploading size limit](https://stackoverflow.com/questions/3958615/import-file-size-limit-in-phpmyadmin) may cause an error.
 
 
 ```
