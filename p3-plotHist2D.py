@@ -135,6 +135,7 @@ def getRange(Z,x,y):
 
 def cropImage(Z,xmin,xmax,ymin,ymax):
     
+    createFolder("output/zoom{0}/temp{0}".format(Z))
     for j in range(ymin,ymax+1):
         # createHist2d(Z,xmin,j)
         

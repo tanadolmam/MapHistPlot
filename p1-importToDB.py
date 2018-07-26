@@ -124,16 +124,17 @@ def p4UpsertTemp(totalRows):
     c = None
     #chunkSize=10**( int( math.log10(totalRows/chunk) ) )
     chunkSize=1000000
-    chunk = int(totalRows/chunkSize)
+    chunk = math.ceil(totalRows/chunkSize)
+    print('chunk= ',chunk)
     
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
         cur = c.cursor()  
         cur.execute('SET NAMES utf8;')
         for i in range(chunk+1):
-            # print(i)
+            print(i)
             start=(i*chunkSize)
-            # print(start)
+            print(start)
             if(i==(chunk)):
                 chunkSize=(totalRows%chunkSize)
                 # print(chunkSize)

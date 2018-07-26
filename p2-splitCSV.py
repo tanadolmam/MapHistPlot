@@ -14,8 +14,12 @@ def splitCSV(zoomRange,tile):
 
     lt=(tile2lat(tile[1],zoomRange),tile2long(tile[0],zoomRange))
     rb=(tile2lat(tile[1]+1,zoomRange),tile2long(tile[0]+1,zoomRange))
-    outputFile   = "C:/Workspace/mm/gisToHist2d/plotHeatmap/output/zoom{0}/data{0}/data_{0}_{1}_{2}.csv".format(zoomRange,tile[0],tile[1])
-    createFolder("C:/Workspace/mm/gisToHist2d/plotHeatmap/output/zoom{0}/data{0}".format(zoomRange))
+    curr_directory = dir_path = os.path.dirname(os.path.realpath(__file__))
+    curr_directory = curr_directory.replace('\\', '/')
+    print(curr_directory)
+
+    outputFile   = "{3}/output/zoom{0}/data{0}/data_{0}_{1}_{2}.csv".format(zoomRange,tile[0],tile[1],curr_directory)
+    createFolder("{1}/output/zoom{0}/data{0}".format(zoomRange,curr_directory))
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
         cur = c.cursor()  
