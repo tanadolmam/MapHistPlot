@@ -9,7 +9,7 @@ import sys
 from numpy import genfromtxt
 
 
-def getTotalRows():
+def getTotalRows():					# Count table 'CSVImport' rows
     print('\ngetTotalRows')
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
@@ -37,7 +37,7 @@ def getTotalRows():
     print('>>> totalRows = ',totalRows)
     return totalRows
     
-def p1CreateCSVImport():
+def p1CreateCSVImport():			# Create table 'CSVImport'
     print('Creating table "CSVImport"')
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
@@ -61,7 +61,8 @@ def p1CreateCSVImport():
 
     if c:
         c.close()
-def p2ImportToTable(filePath):
+
+def p2ImportToTable(filePath):			# Import .csv file from filePath to CSVImport table.
     print('\nImporting to table')
     if not (os.path.isfile(filePath)):
         print(">>> Invalid filePath : csv file not found")
@@ -88,7 +89,7 @@ def p2ImportToTable(filePath):
 
     if c:
         c.close()
-def p3CreateTemp():
+def p3CreateTemp():					# Create table name "temp" in "test2" database to store data after cleaning.
     print('\nCreating table "temp"')
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
@@ -101,7 +102,7 @@ def p3CreateTemp():
             c.commit()
             try:
                 print('>>> Updating temp Pk')
-                sql2="ALTER TABLE `temp` ADD PRIMARY KEY( `lat`, `lon`);"
+                sql2="ALTER TABLE `temp` ADD PRIMARY KEY( `lat`, `lon`);"		# The primary keys are lat and lon.
                 cur.execute(sql2)
                 c.commit()
             except m.InternalError as error:
@@ -118,11 +119,10 @@ def p3CreateTemp():
 
     if c:
         c.close()
-def p4UpsertTemp(totalRows):
+def p4UpsertTemp(totalRows):			# Insert rows from "CSVImport" to "temp". The duplicate primary key will be recalculate to a new row.
    
     print('\nStart upsert data to temp')
     c = None
-    #chunkSize=10**( int( math.log10(totalRows/chunk) ) )
     chunkSize=1000000
     chunk = math.ceil(totalRows/chunkSize)
     print('chunk= ',chunk)
@@ -137,7 +137,6 @@ def p4UpsertTemp(totalRows):
             print(start)
             if(i==(chunk)):
                 chunkSize=(totalRows%chunkSize)
-                # print(chunkSize)
             try:
                 sql = "INSERT INTO temp SELECT * FROM csvimport LIMIT {0},{1} ON DUPLICATE KEY UPDATE temp.spd = ((temp.spd*temp.flag)+csvimport.spd)/(temp.flag+1),temp.flag=temp.flag+1".format(start,chunkSize)
                 print('>>> '+sql)
@@ -157,14 +156,12 @@ def p4UpsertTemp(totalRows):
         c.close()
   
 def main(csvPath): 
-    # chunk = 54
     p1CreateCSVImport()
-    # p2ImportToTable("full_mappoint.csv")
     p2ImportToTable(csvPath)
     p3CreateTemp()
     totalRows = getTotalRows()
     p4UpsertTemp(totalRows)
-
+    print('[Done]')
 if __name__ == "__main__":
     csvPath = sys.argv[1]
     main(csvPath)

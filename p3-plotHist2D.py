@@ -31,28 +31,23 @@ def createHist2d(lonList,latList, binSize,imgName,lt,rb,cm):
     plt.subplots_adjust(0.05, 0.05, 1.05, 0.95)
     plt.axis('equal')
     
-    plt.hist2d(lonList,latList, bins=binSize,cmap=cm, vmin=0, vmax=290,range=[(lt[1],rb[1]),(rb[0],lt[0])])
+    plt.hist2d(lonList,latList, bins=binSize,cmap=cm, vmin=0, vmax=290,range=[(lt[1],rb[1]),(rb[0],lt[0])])     #color scale can be change by value of vmin,vmax
     plt.axis('equal')
     cur_axes = plt.gca()
     cur_axes.axes.get_xaxis().set_ticks([])
     cur_axes.axes.get_yaxis().set_ticks([])
     plt.axis('equal')
-    # plt.colorbar()
-    # if(len(latList)>603):
-    
-    # plt.colorbar()
+
     plt.savefig(imgName,transparent=True,bbox_inches='tight',dpi=720)
-    # plt.show()
     print('saving figure: ',imgName)
     plt.hold(False)
     print(' ')
 
 def plotting(Z,xmin,xmax,ymin,ymax,cm):
 
-    #maxspd = getMaxSpeed(dbName,tableName)
-    # maxspd =  (13.1354, 100.875, 678)
-    #lines  = getTotalRows(dbName,tableName)
-    chunkSize= 400000
+    # chunkSize = number of rows for plotting 1 image
+    # if 1 tile contain more than 400,000 rows(lat,lon pairs), it will plot and merge as layer to previous image
+    chunkSize= 400000                        
     for i in range(xmin,xmax+1):
         for j in range(ymin,ymax+1):
             lt=(tile2lat(j,Z),tile2long(i,Z))
@@ -60,7 +55,6 @@ def plotting(Z,xmin,xmax,ymin,ymax,cm):
             filePath   = "output/zoom{0}/data{0}/data_{0}_{1}_{2}.csv".format(Z,str(i),str(j))
             createFolder("output/zoom{0}/raw{0}".format(Z))
             print(filePath)
-            # filePath = "../GPSData/clean.csv" if len(sys.argv) <= 1 else sys.argv[1]
             if(os.path.isfile(filePath)):
                 count=0
                 lonList = [rb[0]]*300
@@ -96,7 +90,6 @@ def plotting(Z,xmin,xmax,ymin,ymax,cm):
                                 latList = [lt[0],lt[0],rb[0],rb[0]]
                                 lonList = [lt[1],rb[1],lt[1],rb[1]]
                                 part+=1
-                                    # break
                 createHist2d(lonList,latList, 720,'output/zoom{2}/raw{2}/test{2}_{0}_{1}_part'.format(i,j,Z)+str(part)+'.png',lt,rb,cm)
                 if(part != 0):
                     background = Image.open('output/zoom{2}/raw{2}/test{2}_{0}_{1}_part'.format(i,j,Z)+str(0)+'.png')
@@ -105,6 +98,7 @@ def plotting(Z,xmin,xmax,ymin,ymax,cm):
                     background.save('output/zoom{2}/raw{2}/test{2}_{0}_{1}_part'.format(i,j,Z)+str(0)+'.png',"PNG")
                     os.remove('output/zoom{2}/raw{2}/test{2}_{0}_{1}_part'.format(i,j,Z)+str(part)+'.png')
                     print("merge part: ",part)
+
 def getRange(Z,x,y):
     
     lt=(tile2lat(y,Z),tile2long(x,Z))
@@ -113,31 +107,26 @@ def getRange(Z,x,y):
     lonList = [rb[1],lt[1],rb[1],lt[1]]
     latList = [rb[0],lt[0],lt[0],rb[0]]
     imgName = "output/zoom{0}/border_zoom{0}_y{1}.png".format(Z,y)
-    createHist2d(lonList,latList, 720,imgName,lt,rb,"hsv")
+    createHist2d(lonList,latList, 720,imgName,lt,rb,"hsv")              # create new image as a mold for precise cropping range
     im = Image.open(imgName)
-    # im.show()
     x,y = im.size
     background = Image.new(im.mode, im.size,(0,0,0,255))
     background.paste(im, (0, 0), im)
     bg = Image.new(background.mode, im.size, background.getpixel((0,0)))
     diff = ImageChops.difference(background, bg)
-    # diff.show()
     diff = ImageChops.add(diff, diff, 2.0, -100)
     bbox = diff.getbbox()
-    # print('bbox= ', bbox)
     os.remove(imgName)
     if(bbox):
         xRange = min(bbox[0]-0,x-bbox[2])
         yRange = min(bbox[1]-0,y-bbox[3])
-        #print('xRange= ',xRange,' yRange= ',yRange)
         return (xRange,yRange)
     return(0,0)
 
+
 def cropImage(Z,xmin,xmax,ymin,ymax):
-    
     createFolder("output/zoom{0}/temp{0}".format(Z))
     for j in range(ymin,ymax+1):
-        # createHist2d(Z,xmin,j)
         
         xRange,yRange = getRange(Z,xmin,j)
         print(j,'/',ymax,'---',xRange,yRange)
@@ -154,13 +143,14 @@ def cropImage(Z,xmin,xmax,ymin,ymax):
                     x=x.resize((512,512), Image.ANTIALIAS)
                     x.save(saveFile)
         
-def zoomOutTile(tile):
+def zoomOutTile(tile):              # return tile numbers which required for stitching a new tile
     defaultZoomRange = 5
     tile1=(tile[0]*2,tile[1]*2)
     tile2=(tile[0]*2+1,tile[1]*2)
     tile3=(tile[0]*2,tile[1]*2+1)
     tile4=(tile[0]*2+1,tile[1]*2+1)
     return (tile1,tile2,tile3,tile4)
+
 def stitchTile(zoomRange):
     print('stitchTile(',zoomRange,')')
     zoomRange,xmin,xmax,ymin,ymax=getTileBound(zoomRange)
@@ -169,7 +159,6 @@ def stitchTile(zoomRange):
     for i in range(xmin,xmax+1):
         for j in range(ymin,ymax+1):
             t= zoomOutTile((i,j))
-            # print(i,j)
             try:
                 tile1=Image.open('output/zoom{0}/temp{0}/'.format(zoomRange+1)+str(zoomRange+1)+'-'+str(t[0][0])+str(t[0][1])+'.png').resize((512,512), Image.ANTIALIAS)   
             except FileNotFoundError:
@@ -187,22 +176,21 @@ def stitchTile(zoomRange):
             except FileNotFoundError:
                 tile4 = Image.new('RGBA',(512,512))
 
-            if True:
-            # if tile1 and tile2 and tile3 and tile4:
-                (width1, height1) = tile1.size
+            
+            (width1, height1) = tile1.size
 
-                result_width  = width1 *2
-                result_height = height1 *2
+            result_width  = width1 *2
+            result_height = height1 *2
 
-                result = Image.new('RGBA', (result_width, result_height))
-                result.paste(im=tile1, box=(0, 0))
-                result.paste(im=tile2, box=(width1, 0))
-                result.paste(im=tile3, box=(0,height1))
-                result.paste(im=tile4, box=(width1,height1))
-                # result.show()
-                saveFile = 'output/zoom{0}/temp{0}/{0}-{1}{2}.png'.format(zoomRange,i,j)
-                result = result.resize((512,512), Image.ANTIALIAS)
-                result.save(saveFile)
+            result = Image.new('RGBA', (result_width, result_height))
+            result.paste(im=tile1, box=(0, 0))
+            result.paste(im=tile2, box=(width1, 0))
+            result.paste(im=tile3, box=(0,height1))
+            result.paste(im=tile4, box=(width1,height1))
+
+            saveFile = 'output/zoom{0}/temp{0}/{0}-{1}{2}.png'.format(zoomRange,i,j)
+            result = result.resize((512,512), Image.ANTIALIAS)
+            result.save(saveFile)
 
 
 def main(minZoomRange=0,maxZoomRange=20):

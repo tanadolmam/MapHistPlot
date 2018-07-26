@@ -9,7 +9,7 @@ import os,math,shutil,sys
 from lib.mapTool import getTileBound
 from PIL import Image
 
-def clearDirectory(folder):
+def clearDirectory(folder): 				# clear the folder if it is not empty
 	print('clear ',folder)
 	if os.listdir(folder):
 		for the_file in os.listdir(folder):
@@ -21,6 +21,8 @@ def clearDirectory(folder):
 		        elif os.path.isdir(file_path): shutil.rmtree(file_path)
 		    except Exception as e:
 		        print(55)
+
+
 def toTMS(zoom,xmin,xmax,ymin,ymax,opacity=130):
 	print(zoom)
 	extraTile = 13-zoom				#Draw extra blank tiles to fill the missing tiles.
@@ -29,34 +31,27 @@ def toTMS(zoom,xmin,xmax,ymin,ymax,opacity=130):
 		xmax+=extraTile
 		ymin-=extraTile
 		ymax+=extraTile
-	# print(xmin,xmax,ymin,ymax)
 	im = Image.new('RGBA',(512,512),(0,0,0,opacity))
-	# im.show()
-	# clearDirectory('TMSimage/{}'.format(zoom-1))
 	for i in range(xmin,xmax+1):
 		for j in range(ymin,ymax+1):
 			yTMS = (2 ** zoom)-j-1
-			src = "output/zoom{0}/{0}-{1}{2}.png".format(zoom,i,j)
-
-			dst = "TMSimage/{0}/{1}/{2}.png".format(zoom-1,i,yTMS)
+			src = "output/zoom{0}/{0}-{1}{2}.png".format(zoom,i,j)		# source png file
+			dst = "TMSimage/{0}/{1}/{2}.png".format(zoom-1,i,yTMS)		# new TMS png file
 
 			if not (os.path.exists("TMSimage/{0}/{1}".format(zoom-1,i,yTMS))):
 				os.makedirs("TMSimage/{0}/{1}".format(zoom-1,i,yTMS))
 			
 			if(os.path.isfile(src)):
-				# print(src)
-				# os.remove(dst)
 				shutil.copy(src, dst) 
-				# print("move "+src+" to "+dst)
 			else:
-				im.save(dst)
-				
-print('running...XYZtoTMS')
+				im.save(dst)			#Draw extra blank if not exists.
+
 
 def main(minZoomRange=0,maxZoomRange=20):
 	# zoomRange = 10
 	for i in range(maxZoomRange,minZoomRange-1,-1):
 		toTMS(*getTileBound(i),130)
+	print('[Done]')
 
 
 if __name__ == "__main__":

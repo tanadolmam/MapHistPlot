@@ -14,7 +14,7 @@ def splitCSV(zoomRange,tile):
 
     lt=(tile2lat(tile[1],zoomRange),tile2long(tile[0],zoomRange))
     rb=(tile2lat(tile[1]+1,zoomRange),tile2long(tile[0]+1,zoomRange))
-    curr_directory = dir_path = os.path.dirname(os.path.realpath(__file__))
+    curr_directory = dir_path = os.path.dirname(os.path.realpath(__file__))         # get current .py file's directory
     curr_directory = curr_directory.replace('\\', '/')
     print(curr_directory)
 
@@ -51,6 +51,7 @@ def main(zoomRange):
     for x in range(xmin,xmax+1):
         for y in range(ymin,ymax+1):
             splitCSV(zoomRange,(x,y))
+    print('[Done]')
 
 if __name__ == "__main__":
     zoomRange = int(sys.argv[1])
