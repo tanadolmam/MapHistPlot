@@ -1,9 +1,16 @@
-# import numpy as np
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("minZoomRange", help="Minimum zoomRange to plot(default =  0)")
-parser.add_argument("maxZoomRange", help="Maximum zoomRange to plot(default = 20)")
+parser.add_argument("--mode", nargs=1,  dest="arg0" , help="'speed' or 'density'")
+parser.add_argument("--min", nargs=1,  dest="arg1" , help="Minimum zoomRange to plot(default =  0)")
+parser.add_argument("--max", nargs=1,  dest="arg2" , help="Maximum zoomRange to plot(default = 20)")
+parser.add_argument("--opacity", nargs=1,  dest="arg3" , help="Opacity of background[0-255] (default = 130)")
 args = parser.parse_args()
+
+m=args.arg0[0]
+x=args.arg1[0]
+y=args.arg2[0]
+z=args.arg3[0]
+
 
 import csv,os
 import sys,math
@@ -43,7 +50,7 @@ def createHist2d(lonList,latList, binSize,imgName,lt,rb,cm):
     plt.hold(False)
     print(' ')
 
-def plotting(Z,xmin,xmax,ymin,ymax,cm):
+def plotting(Z,xmin,xmax,ymin,ymax,cm,mode):
 
     # chunkSize = number of rows for plotting 1 image
     # if 1 tile contain more than 400,000 rows(lat,lon pairs), it will plot and merge as layer to previous image
@@ -63,7 +70,12 @@ def plotting(Z,xmin,xmax,ymin,ymax,cm):
                 latList+= [lt[1],rb[1]]
                 part=0
                 for line in open(filePath):
-                    k = (line.split(",")[0],line.split(",")[1],line.split(",")[2])
+                    k = (line.split(",")[0],line.split(",")[1])
+                    # print(mode)
+                    if(mode == "speed"):
+                        spd=float(line.split(",")[2])
+                    elif(mode == "density"):
+                        spd=float(line.split(",")[3])
                     lat=float(k[0])
                     if(lat<rb[0]):
                         print('lat= ',lat,' is out of bound')
@@ -71,11 +83,11 @@ def plotting(Z,xmin,xmax,ymin,ymax,cm):
 
                     lon=float(k[1])
                     if (5.6 <= lat <= 20.5) and (97.3 <= lon <= 105.6):
-                        if(lt[1]<=lon<=rb[1]) and (rb[0]<=lat<=lt[0]) and (math.ceil(float(k[2]))<300):
+                        if(lt[1]<=lon<=rb[1]) and (rb[0]<=lat<=lt[0]) and (math.ceil(spd)<300):
 
                             count+=1
-                            latList += [lat] * math.ceil(float(k[2])+1)
-                            lonList += [lon] * math.ceil(float(k[2])+1)
+                            latList += [lat] * math.ceil(float(spd)+1)
+                            lonList += [lon] * math.ceil(float(spd)+1)
                             if(count%chunkSize==0):
                                 print('n=',i,j)
 
@@ -193,22 +205,28 @@ def stitchTile(zoomRange):
             result.save(saveFile)
 
 
-def main(minZoomRange=0,maxZoomRange=20):
+def main(mode,minZoomRange=0,maxZoomRange=20,opacity=130):
+    print(mode)
     cm = mpl.colors.ListedColormap(generateCmap())
-    plotting(*getTileBound(maxZoomRange),cm)
+    plotting(*getTileBound(maxZoomRange),cm,mode)
     cropImage(*getTileBound(maxZoomRange))
     for i in range(maxZoomRange-1,minZoomRange-1,-1):
         stitchTile(i)
     for i in range(maxZoomRange,minZoomRange-1,-1):
-        bgColor(i,130)
+        bgColor(i,opacity)
         retouch(i,brightness=(21-i)*1.5)
-    bgColor(maxZoomRange,130)
+    bgColor(maxZoomRange,opacity)
     retouch(maxZoomRange,brightness=(21-10)*1.5)
     print('[Done]')
 
-if __name__ == "__main__":
-    minZoomRange = int(sys.argv[1])
-    maxZoomRange = int(sys.argv[2])
-    main(minZoomRange,maxZoomRange) 
 
-# main(6,12)
+if __name__ == "__main__":
+    mode = str(m)
+    print(m)
+    minZoomRange = int(x)
+    maxZoomRange = int(y)
+    opacity = int(z)
+    main(mode,minZoomRange,maxZoomRange,opacity) 
+
+
+# main("density",5,10,170)

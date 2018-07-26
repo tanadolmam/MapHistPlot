@@ -1,7 +1,10 @@
 import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument("zoomRange", help="Export rows within lat,lon range of each tile in a zoomRange into .csv files")
-args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# parser.add_argument("--zoom", nargs=1,  dest="arg1" , help="Export rows within lat,lon zoom range")
+# args = parser.parse_args()
+
+
+# x=args.arg1[0]
 
 
 import pymysql as m
@@ -18,14 +21,14 @@ def splitCSV(zoomRange,tile):
     curr_directory = curr_directory.replace('\\', '/')
     print(curr_directory)
 
-    outputFile   = "{3}/output/zoom{0}/data{0}/data_{0}_{1}_{2}.csv".format(zoomRange,tile[0],tile[1],curr_directory)
+    outputFile = "{3}/output/zoom{0}/data{0}/data_{0}_{1}_{2}.csv".format(zoomRange,tile[0],tile[1],curr_directory)
     createFolder("{1}/output/zoom{0}/data{0}".format(zoomRange,curr_directory))
     try:
         c = m.connect(host='localhost', user='root', passwd='', db='test2')
         cur = c.cursor()  
         cur.execute('SET NAMES utf8;')
         cur.execute("SELECT VERSION()")
-        sql = "SELECT lat,lon,spd FROM temp WHERE (lat BETWEEN {1} AND {2}) AND (lon BETWEEN {3} AND {4}) INTO OUTFILE \"{0}\" FIELDS TERMINATED BY \",\" LINES TERMINATED BY \"\n\"".format(outputFile,rb[0],lt[0],lt[1],rb[1])
+        sql = "SELECT lat,lon,spd,flag FROM temp WHERE (lat BETWEEN {1} AND {2}) AND (lon BETWEEN {3} AND {4}) INTO OUTFILE \"{0}\" FIELDS TERMINATED BY \",\" LINES TERMINATED BY \"\n\"".format(outputFile,rb[0],lt[0],lt[1],rb[1])
         print(sql)
         sql = sql.encode('utf-8')
 
@@ -53,7 +56,7 @@ def main(zoomRange):
             splitCSV(zoomRange,(x,y))
     print('[Done]')
 
-if __name__ == "__main__":
-    zoomRange = int(sys.argv[1])
-    main(zoomRange) 
-# main(3)
+# if __name__ == "__main__":
+#     zoomRange = int(x)
+#     main(zoomRange) 
+main(10)

@@ -1,9 +1,15 @@
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("minZoomRange", help="Minimum zoomRange to plot(default =  0)")
-parser.add_argument("maxZoomRange", help="Maximum zoomRange to plot(default = 20)")
+parser.add_argument("--mode", nargs=1,  dest="arg0" , help="'speed' or 'density'")
+parser.add_argument("--min", nargs=1,  dest="arg1" , help="Minimum zoomRange to plot(default =  0)")
+parser.add_argument("--max", nargs=1,  dest="arg2" , help="Maximum zoomRange to plot(default = 20)")
+parser.add_argument("--opacity", nargs=1,  dest="arg3" , help="Opacity of background[0-255] (default = 130)")
 args = parser.parse_args()
 
+m=args.arg0[0]
+x=args.arg1[0]
+y=args.arg2[0]
+z=args.arg3[0]
 
 import os,math,shutil,sys
 from lib.mapTool import getTileBound
@@ -14,7 +20,6 @@ def clearDirectory(folder): 				# clear the folder if it is not empty
 	if os.listdir(folder):
 		for the_file in os.listdir(folder):
 		    file_path = os.path.join(folder, the_file)
-		    # print(the_file)
 		    try:
 		        if os.path.isfile(file_path):
 		            os.unlink(file_path)
@@ -23,7 +28,7 @@ def clearDirectory(folder): 				# clear the folder if it is not empty
 		        print(55)
 
 
-def toTMS(zoom,xmin,xmax,ymin,ymax,opacity=130):
+def toTMS(zoom,xmin,xmax,ymin,ymax,mode,opacity=130):
 	print(zoom)
 	extraTile = 13-zoom				#Draw extra blank tiles to fill the missing tiles.
 	if(extraTile>0):
@@ -36,10 +41,10 @@ def toTMS(zoom,xmin,xmax,ymin,ymax,opacity=130):
 		for j in range(ymin,ymax+1):
 			yTMS = (2 ** zoom)-j-1
 			src = "output/zoom{0}/{0}-{1}{2}.png".format(zoom,i,j)		# source png file
-			dst = "TMSimage/{0}/{1}/{2}.png".format(zoom-1,i,yTMS)		# new TMS png file
+			dst = "TMSimage{3}/{0}/{1}/{2}.png".format(zoom-1,i,yTMS,mode)		# new TMS png file
 
-			if not (os.path.exists("TMSimage/{0}/{1}".format(zoom-1,i,yTMS))):
-				os.makedirs("TMSimage/{0}/{1}".format(zoom-1,i,yTMS))
+			if not (os.path.exists("TMSimage{2}/{0}/{1}".format(zoom-1,i,mode))):
+				os.makedirs("TMSimage{2}/{0}/{1}".format(zoom-1,i,mode))
 			
 			if(os.path.isfile(src)):
 				shutil.copy(src, dst) 
@@ -47,14 +52,17 @@ def toTMS(zoom,xmin,xmax,ymin,ymax,opacity=130):
 				im.save(dst)			#Draw extra blank if not exists.
 
 
-def main(minZoomRange=0,maxZoomRange=20):
-	# zoomRange = 10
+def main(mode,minZoomRange=0,maxZoomRange=20,opacity=130):
 	for i in range(maxZoomRange,minZoomRange-1,-1):
-		toTMS(*getTileBound(i),130)
+		toTMS(*getTileBound(i),mode,opacity)
 	print('[Done]')
 
 
 if __name__ == "__main__":
-    minZoomRange = int(sys.argv[1])
-    maxZoomRange = int(sys.argv[2])
-    main(minZoomRange,maxZoomRange) 
+    mode = str(m)
+    minZoomRange = int(x)
+    maxZoomRange = int(y)
+    opacity = int(z)
+    main(mode,minZoomRange,maxZoomRange,opacity) 
+
+# main("density",5,10,170)

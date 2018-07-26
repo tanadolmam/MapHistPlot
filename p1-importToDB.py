@@ -1,7 +1,9 @@
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("csvPath", help="(string) Directory of a source csv file")
+parser.add_argument("--csvPath", nargs=1,  dest="arg1",help="(string) Directory of a source csv file")
 args = parser.parse_args()
+
+x=args.arg1[0]
 
 import pymysql as m
 import csv,math,os
@@ -163,6 +165,6 @@ def main(csvPath):
     p4UpsertTemp(totalRows)
     print('[Done]')
 if __name__ == "__main__":
-    csvPath = sys.argv[1]
+    csvPath = str(x)
     main(csvPath)
 # main("../GPSData/clean.csv")
