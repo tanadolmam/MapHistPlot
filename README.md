@@ -37,7 +37,7 @@ Firstly, install the following modules:
 
 
 ### Windows
-1. Create database "test2"
+1. Create database "test2" by Apache, MySQL.
 2. Open Command Prompt
 3. Change directory to your python file location  `cd C:\Users\user\Documents\GitHub`
 
