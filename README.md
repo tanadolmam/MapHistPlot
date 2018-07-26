@@ -1,5 +1,5 @@
 # MapHistPlot
-Plot Heatmap from latitude and longtitude using Python. Then make it work with Tile Map Service.
+Plot Heatmap from latitude and longtitude using Python. Then make it work with Tile Map Service. It also has option between speed and density.
 
 ## Overview
   To draw a heatmap, it requires several programs. I divide them it to 4 parts:
@@ -45,13 +45,14 @@ Firstly, install the following modules:
 
 Example of plotting heatmap from zoomRange 6 to 12
 
-`python p1-importToDB.py "/Users/user/Documents/GitHub/MapHistPlot//GPSData/mappoint.csv"` --> Clean data and import them to database.
+`python p1-importToDB.py "/Users/user/Documents/GitHub/MapHistPlot/GPSData/mappoint.csv"` --> Clean data and import them to database.
 
 `python p2-splitCSV.py --zoom 12`  --> Create csv for each tile where zoomRange=12.
 
 `python p3-plotHist2d.py --min 6 --max 12 --opacity 130 --mode "speed"` --> Draw heatmap of zoomRange=12 then recursively stitch them to make heatmap for zoom level 6-11 descending.
 
-`python p4-XYZtoTMS.py --min 6 --max 12 --mode "speed"`  --> Arrange images in zoomRange 6 to 12 in the correct format.
+`python p4-XYZtoTMS.py --min 6 --max 12 -- opacity 130 --mode "speed"`  --> Arrange images in zoomRange 6 to 12 in the correct format.
+
 
 5. Open __mymap.html__ to see the result. Learn more about [Longdo Map API](https://map.longdo.com/longdo-map-api).
 
@@ -60,6 +61,8 @@ Example of plotting heatmap from zoomRange 6 to 12
 ## Documentation
 
 ### p1-ImportToDB.py
+
+* `--csvPath:string` - location of raw CSV file
  
   Import raw data in format of .csv file to database. The form of data is shown in table below.
   
@@ -108,6 +111,9 @@ Insert rows from "CSVImport" to "temp". The duplicate primary key will be recalc
 
 
 ### p2-splitCSV.py
+
+* `--zoom:int` - Range of zoom
+
    Export data from database into CSV file.
   
 ```
@@ -120,6 +126,12 @@ The output will be stored in "/output/zoomZ/dataZ", where Z is `zoomRange`. For 
   
   
 ### p3-plotHist2D.py
+
+* `--minZoomRange:int` - minimunm range of zoom
+* `--maxZoomRange:int` - maximunm range of zoom
+* `--mode:string` - "speed" or "density"
+* `--opacity:int` - opacity of background image(between 0-255)
+
    Plot data into 512x512 PNG files. The format can be use in Google Map Overlay an Longdo Map Layer.
   
 ```
@@ -184,6 +196,12 @@ Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRa
 
 
 ### p4-XYZtoTMS.py
+
+* `--minZoomRange:int` - minimunm range of zoom
+* `--maxZoomRange:int` - maximunm range of zoom
+* `--mode:string` - "speed" or "density"
+* `--opacity:int` - background opacity of border image(between 0-255)
+
    Change file's name and organize them in Tile Map Service format.
   
 ```
