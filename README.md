@@ -207,13 +207,14 @@ Create a new tile in given `zoomRange` by stitching 4 tiles(images) from `zoomRa
    Change file's name and organize them in Tile Map Service format.
   
 ```
-toTMS(zoomRange,xmin,xmax,ymin,ymax)
+toTMS(zoomRange,xmin,xmax,ymin,ymax,opacity)
 ```
 * `zoomRange:int` - Range of zoom
 * `xmin:int` - most left value of x axis in map tile system
 * `xmax:int` - most right value of x axiss in map tile system
 * `ymin:int` - top value of y axis in map tile system
 * `ymax:int` - bottom value of y axis in map tile system
+* `opacity:int` - opacity of background (integer between 0-255), default=130
 
 Organize files to make them work with Longdo Map API(TMS).
 
